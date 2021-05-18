@@ -2,25 +2,57 @@ package com.challenge.warmup.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "post")
 public class Post {
+
+    @Id
+    @Column(name = "post_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer postId;
+
+    @NotNull
+    @Column (name = "title")   
+    private String title;
+
+    @NotNull
+    @Column(name = "content")
+    private String content;
+
+    @NotNull
+    @Column(name = "image")
+    private String imageUrl;
+
+    @NotNull
+    @Column(name = "category")
+    private String category;
+
+    @NotNull
+    @Column(name = "creation_date")
+    private Date creationDate;
+
+    @NotNull
+    @Column(name = "user_id")
+    private Integer userId;
 
     public Post() {}
 
-    public Post(String title, String content, String imageUrl, String category, Date creationDate) {
+    public Post(String title, String content, String imageUrl, String category, Date creationDate, Integer userId) {
         this.title = title;
         this.content = content;
         this.imageUrl = imageUrl;
         this.category = category;
         this.creationDate = creationDate;
+        this.userId = userId;
     }
-
-    private Integer postId;
-    private String title;
-    private String content;
-    private String imageUrl;
-    private String category;
-    private Date creationDate;
-
 
     public Integer getPostId() {
         return this.postId;
@@ -69,4 +101,13 @@ public class Post {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }    
+
+    public Integer getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
 }
