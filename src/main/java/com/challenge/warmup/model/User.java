@@ -1,6 +1,24 @@
 package com.challenge.warmup.model;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
 public class User {
+    @Id
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer userId;
+    
+    @NotNull
+    @Column (name = "email")
+    private String email;
+
+    @NotNull
+    @Column (name = "password")
+    private String password;
     
     public User() {}
 
@@ -9,10 +27,6 @@ public class User {
         this.password = password;
         
     }
-
-    private Integer userId;
-    private String email;
-    private String password;
 
     public Integer getUserId() {
         return this.userId;
