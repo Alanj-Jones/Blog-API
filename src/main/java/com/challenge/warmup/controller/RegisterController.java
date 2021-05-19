@@ -1,5 +1,8 @@
 package com.challenge.warmup.controller;
 
+import com.challenge.warmup.model.User;
+import com.challenge.warmup.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
