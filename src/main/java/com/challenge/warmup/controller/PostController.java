@@ -7,13 +7,14 @@ import com.challenge.warmup.model.Post;
 import com.challenge.warmup.repository.PostRepository;
 import com.challenge.warmup.repository.UserRepository;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -27,29 +28,28 @@ public class PostController {
     private UserRepository userRepo;
 
     @GetMapping("/posts")
-    public String viewPosts() {  
-        List<String> posts = new ArrayList<String>();      
-        for(Post p : postRepo.findAll()) {
-            posts.add(new Gson().toJson(p));   
-            System.out.println(p); //Debug        
-        }
-        System.out.println("Lista: " + posts.toString());
-        return null;
-    }
-
-    @GetMapping("/posts?title={title}")
-    public String postsByTitle() {
-        return null;
-    }
-
-    @GetMapping("/posts?category={category}")
-    public String postsByCategory() {
-        return null;
-    }
-
-    @GetMapping("/posts?title={title}&category={category}")
-    public String postsByTitleAndCategory() {
-        return null;
+    public String viewPosts(
+        @RequestParam(required = false, name = "title") String title,
+        @RequestParam(required = false, name = "category") String category) {
+            List<String> posts = new ArrayList<String>();      
+            if (title==null && category==null) {
+                for(Post p : postRepo.findAll()) {
+                    posts.add(new Gson().toJson(p));   
+                }
+            } else if (title!=null && category==null) {
+                for (Post p : postRepo.findByTitleLike(title)) {
+                    posts.add(new Gson().toJson(p));
+                }
+            } else if (title==null && category!=null){
+                for (Post p : postRepo.findByCategoryLike(category)) {
+                    posts.add(new Gson().toJson(p));
+                }
+            } else {
+                for (Post p : postRepo.findByTitleLikeAndCategoryLike(title, category)) {
+                    posts.add(new Gson().toJson(p));
+                }
+            }
+            return posts.toString();
     }
 
     @GetMapping("/posts/{id}")
@@ -58,7 +58,9 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    public String newPost() {
+    public String newPost(@RequestBody Post post) {
+        System.out.println(post);
+        postRepo.save(post);
         return null;
     }
 
