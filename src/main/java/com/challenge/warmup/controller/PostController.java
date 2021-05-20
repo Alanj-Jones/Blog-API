@@ -33,7 +33,7 @@ public class PostController {
         @RequestParam(required = false, name = "category") String category) {
             List<String> posts = new ArrayList<String>();      
             if (title==null && category==null) {
-                for(Post p : postRepo.findAll()) {
+                for(Object p : postRepo.getPosts()) {
                     posts.add(new Gson().toJson(p));   
                 }
             } else if (title!=null && category==null) {
