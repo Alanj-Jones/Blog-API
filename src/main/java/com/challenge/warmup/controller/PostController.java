@@ -63,15 +63,25 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    public String newPost(@RequestBody Post post) {
-        System.out.println(post);
-        postRepo.save(post);
-        return null;
+    public String newPost(@RequestBody Post post) {        
+        try {
+            postRepo.save(post);
+            return new Gson().toJson(post);
+        } catch (Exception e) {
+            return "El Post no ha podido ser creado";
+        }
     }
 
     @PatchMapping("/posts/{id}")
-    public String editPost() {
-        return null;
+    public String editPost(@PathVariable Integer id, @RequestBody Post post) {
+        try {
+            // Post postToModify = postRepo.findById(id).get();
+            post.setPostId(id);
+            postRepo.save(post);
+            return new Gson().toJson(postRepo.findById(id).get());
+        }  catch (Exception e) {
+            return "El post no ha podido ser editado";
+        }
     }
 
     @DeleteMapping("/posts/{id}")
