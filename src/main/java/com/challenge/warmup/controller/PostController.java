@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 public class PostController {
 
@@ -54,8 +53,13 @@ public class PostController {
     }
 
     @GetMapping("/posts/{id}")
-    public String singlePost() {
-        return null;
+    public String singlePost(@PathVariable Integer id) {
+        var post = postRepo.findById(id);
+        if (!post.isEmpty()) {
+            return new Gson().toJson(post.get());
+        }
+        
+        return "El Id del post no existe o es incorrecto.\n";
     }
 
     @PostMapping("/posts")
