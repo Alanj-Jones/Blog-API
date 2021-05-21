@@ -16,10 +16,7 @@ public class RegisterController {
     private UserRepository userRepo;
 
     @PostMapping("/auth/sign_up")
-    public String register(@RequestParam String email, @RequestParam String password) {
-		System.out.println("Email: " + email);
-		System.out.println("Pword: " + password);
-		
+    public String register(@RequestParam String email, @RequestParam String password) {		
 		try {
 			userRepo.save(new User(email, password));
 			return "Usuario registrado exitosamente";

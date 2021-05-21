@@ -24,6 +24,8 @@ public class User {
     @NotNull
     @Column (name = "password")
     private String password;
+
+    private String token;
     
     public User() {}
 
@@ -56,5 +58,12 @@ public class User {
         this.password = password;
     }
 
+    public String getToken() {
+        return this.token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
 }
