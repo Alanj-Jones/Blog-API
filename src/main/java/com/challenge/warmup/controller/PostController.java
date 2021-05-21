@@ -37,15 +37,15 @@ public class PostController {
                     posts.add(new Gson().toJson(p));   
                 }
             } else if (title!=null && category==null) {
-                for (Post p : postRepo.findByTitleLike(title)) {
+                for (Object p : postRepo.findByTitleLike(title)) {
                     posts.add(new Gson().toJson(p));
                 }
             } else if (title==null && category!=null){
-                for (Post p : postRepo.findByCategoryLike(category)) {
+                for (Object p : postRepo.findByCategoryLike(category)) {
                     posts.add(new Gson().toJson(p));
                 }
             } else {
-                for (Post p : postRepo.findByTitleLikeAndCategoryLike(title, category)) {
+                for (Object p : postRepo.findByTitleLikeAndCategoryLike(title, category)) {
                     posts.add(new Gson().toJson(p));
                 }
             }
