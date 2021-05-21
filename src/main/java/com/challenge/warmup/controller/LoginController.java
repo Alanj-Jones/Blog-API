@@ -4,10 +4,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.challenge.warmup.model.User;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import com.challenge.warmup.model.User;
+import com.challenge.warmup.repository.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,14 +28,25 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @RestController
 public class LoginController {
 
-    @PostMapping("user")
-	public User login(@RequestParam("user") String username, @RequestParam("password") String password) {
-		
-		String token = getJWTToken(username);
-		User user = new User();
-		user.setEmail(username);
-		user.setToken(token);		
-		return user;
+    // @Autowired
+    // private HttpServletRequest request;
+
+
+    @PostMapping("/auth/login")
+	public String login(@RequestParam("user") String username, @RequestParam("password") String password) {
+        
+        try {
+            String token = getJWTToken(username);
+            User user = new User();    
+            user.setEmail(username);
+            user.setPassword(password);
+            user.setToken(token);		
+            return user.toString();
+        } catch (Exception e) {
+
+        }
+
+        return "Failed AUTH";
 		
 	}
 
@@ -49,5 +70,15 @@ public class LoginController {
 
 		return "Bearer " + token;
 	}
+
+
+
+    // private boolean isAuthenticated() {
+    //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    //     if (authentication == null || AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
+    //         return false;
+    //     }
+    //     return authentication.isAuthenticated();
+    //     }
     
 }
