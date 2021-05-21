@@ -10,13 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "post")
 public class Post {
 
     @Id
     @Column(name = "post_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer postId;
 
     @NotNull
@@ -37,6 +39,7 @@ public class Post {
 
     @NotNull
     @Column(name = "creation_date")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date creationDate;
 
     @NotNull
